@@ -1,0 +1,137 @@
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from './userSlice'
+
+
+const appStore=configureStore({
+    reducer:{
+        user:userReducer
+    }
+})
+
+export default appStore
+-------------
+  <Provider store={appStore}>
+        <BrowserRouter basename='/'>
+          <Routes>
+            <Route path='/' element={<Body />}>
+              <Route path='/login' element={<Login />}></Route>
+              <Route path='/profile' element={<Profile />}></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
+
+-------------------
+import { createSlice } from "@reduxjs/toolkit";
+
+
+const userSclice=createSlice({
+    name:'user',
+    initialState:null,
+    reducers:{
+        addUser:(state,action)=>{
+            return action.payload;
+        },
+        removeUser:(state,action)=>{
+            return null
+        }
+    }
+})
+
+export const{addUser,removeUser}=userSclice.actions
+export default userSclice.reducer
+
+---------------------------------
+import { addUser } from "../utils/userSlice"
+
+const dispatch=useDispatch()
+dispatch(addUser(data))
+
+
+----------------------------
+// using the reduxjs data
+
+import { useSelector } from "react-redux"
+import { Editform } from "./EditProfile"
+
+
+
+export const Profile=()=>{
+    const user=useSelector(store=>store.user)
+    // user is present it execute the jsx
+    return(user&&<div>       
+        <Editform user={user} />
+    </div>)
+}
+
+------------------------------------------
+// removing data from reduxstore
+
+import { useDispatch, useSelector } from "react-redux"
+
+export function f_name(){
+   const dispatch=useDispatch()
+   dispatch(removeUser())
+}
+
+
+------------------------------
+react component props:-
+
+userCard.jsx
+function UserCard(prop){
+  return(
+    <div>
+      {prop.name}
+    </div>
+  )
+}
+
+import UserCard from "../"
+
+function Display(){
+  return(<div>
+     <UserCard name="naveen" />
+  </div>)
+}
+
+
+destructure props
+
+import UserCard from "../"
+
+function Display(){
+  user={name:"naveen",age:24,avaible:true}
+  return(<div>
+     <UserCard user={user} />
+  </div>)
+}
+
+userCard.jsx
+
+function UserCard({user}){
+  return(
+    <div>
+      {user.name}
+    </div>
+  )
+}
+
+
+
+------------------------
+
+conditional operator [&&,ternary{condition:true:false}]
+
+Ex:- 
+const [showMessage,setShowMesssge]=false
+function submit(){
+  setShowMesssge(true)
+  setTimeOut(()=>{
+    setShowMesssge(false)
+  },3000)
+}
+
+bind in UI:-
+{showMessage && <div>sucess</div>}
+// if showMessage is true it render the message

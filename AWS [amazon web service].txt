@@ -1,0 +1,109 @@
+AWS [amazon web service]
+
+- https://aws.amazon.com/console/ - if account not have need to create account.
+- after successful login or creating account we land to our console portal
+- search for ec2 [elastic compute]
+- ec2 give machine for execute our code in cloud.
+- click launch instance. [it's like a object]
+     - after we have to give web server name and select OS for execute  code
+     - i select Ubuntu 
+     - create key pair file [it is security for machine]
+     - after click it shows pop up box in box need enter name[any] secret and type ORS and .pem file
+     - click create key pair after download .pem file
+     - rest of all leave as it is.
+     - click launch instance
+     - go to all instances check new instance "status check" and "instance state" successful or not
+     - after success click instance id. inside instance if public ip created click to connect.
+     - after move SHH client. we follow that commands in our local system terminal
+     - go to directory of .pem file location and open cmd 
+     - commands:- .pem present in > C:\Users\knr12\Downloads>
+        C:\Users\knr12\Downloads>chmod 400 "timeSheet-secret.pem"
+        C:\Users\knr12\Downloads>ssh -i "timeSheet-secret.pem" ubuntu@ec2-3-26-24-255.ap-southeast-2.compute.amazonaws.com
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1011-aws x86_64)
+
+        key :- "timeSheet-secret.pem"
+        address of machine:- ubuntu@ec2-3-26-24-255.ap-southeast-2.compute.amazonaws.comWelcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.14.0-1011-aws x86_64)
+
+        - after open "ubuntu@ip-172-31-20-185:~$" path
+        - ubuntu@ip-172-31-20-185:~$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash  [install nodejs]
+        - ubuntu@ip-172-31-20-185:~$ nvm install v22.13.1 [ what version in your local computer that only version only otherwise you get errors ]
+
+        - after what project you want host take that git repository link:-
+             ubuntu@ip-172-31-20-185:~$ git clone https://github.com/naveenreddy1103/TimeSheet-frontend.git  [frontend]
+             ubuntu@ip-172-31-20-185:~$ git clone https://github.com/naveenreddy1103/TimeSheet-backend.git   [backend]
+
+        - ubuntu@ip-172-31-20-185:~$ ls [ls command shows list folders]
+        - ubuntu@ip-172-31-20-185:~$ cd TimeSheet-frontend     [front end]
+        - ubuntu@ip-172-31-20-185:~/TimeSheet-frontend$ npm install
+        - ubuntu@ip-172-31-20-185:~/TimeSheet-frontend$ npm run build [it build dist folder]
+
+        - using nginx:- in our project using nginx for to host our project
+           -[cmd]  sudo apt update  [it update our system]
+           -[cmd] sudo apt install nginx [installing nginx]
+           -[cmd]  sudo systemctl start nginx  [starting nginx]
+           -[cmd] sudo systemctl enable nginx  [ enable nginx]
+           - copy code from dist(build files) to /var/www/html
+  
+           -[cmd]  sudo scp -r dist/* /var/www/html
+            
+                   sudo:- root level permission
+                   scp:- for coping
+                   -r :- recersively means all folders
+                   dist/* :- dist inside all files
+                   /var/www/html :- from folder
+ 
+           - enable port :80 of your instances [by default nginx is port 80. need enable in aws instance ]
+                 - go to aws ec2 inside click instance inside again click security heading column 
+                   after click security grops inside edit inbound rules after click add rule button
+                   and set port range 80 and info 0.0.0.0/0
+
+
+
+
+
+
+Backend-deploying:- 
+       - ubuntu@ip-172-31-20-185:~ git clone path[project path]
+       - ubuntu@ip-172-31-20-185:~/TimeSheet-backend$ npm install
+       - ubuntu@ip-172-31-20-185:~/TimeSheet-backend$ npm run start
+
+       - instead of npm run start we use "pm2" This package runs server in production level.
+       - ubuntu@ip-172-31-20-185:~/TimeSheet-backend$ 
+       - ubuntu@ip-172-31-20-185:~/TimeSheet-backend$ npm install pm2 -g
+       - ubuntu@ip-172-31-20-185:~/TimeSheet-backend$ pm2 start npm -- start
+
+       - ubuntu@ip-172-31-20-185:~/TimeSheet-backend$ pm2 logs  
+            => if [pm2 start npm -- start] command not working we use [pm2 logs]
+       
+       -  pm2 flush npm, pm2 list, pm2 stop <name>npm , pm2 delete <name>
+
+       - give to custom processor name by using:- pm2 start npm --name "backend" -- start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
